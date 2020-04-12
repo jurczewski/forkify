@@ -51,7 +51,6 @@ elements.serachResPages.addEventListener('click', e => {
         const goToPage = parseInt(btn.dataset.goto, 10);
         searchView.clearResults();
         searchView.renderResult(state.search.result, goToPage);
-        //console.log(goToPage);
     }
 });
 
@@ -59,12 +58,14 @@ elements.serachResPages.addEventListener('click', e => {
 const controlRecipe = async () => {
     // Get ID from url
     const id = window.location.hash.replace('#', '');
-    console.log(id);
 
     if (id) {
         // Prepare UI for changes
         recipeView.clearRecipe();
         renderLoader(elements.recipe);
+
+        // Highligh selected search item
+        if(state.search) searchView.highlightSelected(id);
 
         // Create new recipe object
         state.recipe = new Recipe(id);
@@ -73,6 +74,7 @@ const controlRecipe = async () => {
             // Get recipe data
             await state.recipe.getRecipe();
             state.recipe.parseIngredietns();
+            console.log(state.recipe);
 
             // Calculate servings and time
             state.recipe.calcTime();
