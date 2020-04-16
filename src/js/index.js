@@ -31,14 +31,14 @@ const controlSearch = async () => {
         searchView.clearResults();
         renderLoader(elements.searchRes);
 
-        try{
+        try {
             // 4) Search for recipes
             await state.search.getResult();
 
             // 5) Render results on UI
             clearLoader();
             searchView.renderResult(state.search.result);
-        } catch (error){
+        } catch (error) {
             alert('Something wrong with the search...');
             clearLoader();
         }
@@ -72,12 +72,12 @@ const controlRecipe = async () => {
         renderLoader(elements.recipe);
 
         // Highligh selected search item
-        if(state.search) searchView.highlightSelected(id);
+        if (state.search) searchView.highlightSelected(id);
 
         // Create new recipe object
         state.recipe = new Recipe(id);
 
-        try{
+        try {
             // Get recipe data
             await state.recipe.getRecipe();
             state.recipe.parseIngredietns();
@@ -87,10 +87,10 @@ const controlRecipe = async () => {
             state.recipe.calcServings();
 
             // Render recipe
-           clearLoader();
-           recipeView.renderRecipe(state.recipe);
+            clearLoader();
+            recipeView.renderRecipe(state.recipe);
 
-        } catch (error){
+        } catch (error) {
             alert('Error processing recipe');
         }
     }
@@ -117,15 +117,15 @@ elements.shopping.addEventListener('click', e => {
     const id = e.target.closest('.shopping__item').dataset.itemid;
 
     // Handle delete button
-    if(e.target.matches('.shopping__delete, .shopping__delete *')){
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
         // Delete from state
         state.list.deleteItem(id);
 
         // Delete from UI
         listView.deleteItem(id);
 
-    // Handle the count update
-    } else if (e.target.matches('.shopping__count-value')){
+        // Handle the count update
+    } else if (e.target.matches('.shopping__count-value')) {
         const val = parseFloat(e.target.value, 10);
         state.list.updateCount(id, val);
     }
@@ -135,11 +135,11 @@ elements.shopping.addEventListener('click', e => {
  * LIKES CONTROLLER
  */
 const controlLike = () => {
-    if(!state.likes) state.likes = new Likes();
+    if (!state.likes) state.likes = new Likes();
     const currentID = state.recipe.id;
 
     // User has NOT yet liked current recipe
-    if (!state.likes.isLiked(currentID)){
+    if (!state.likes.isLiked(currentID)) {
         // Add like to the state
         const newLike = state.likes.addLike(
             currentID,
@@ -152,7 +152,7 @@ const controlLike = () => {
         // Add like to UI list
         console.log(state.likes);
 
-    // User HAS yet liked current recipe
+        // User HAS yet liked current recipe
     } else {
         // Remove like to the state
         state.likes.deleteLike(currentID);
@@ -166,9 +166,9 @@ const controlLike = () => {
 
 // Handling recipe button clicks
 elements.recipe.addEventListener('click', e => {
-    if (e.target.matches('.btn-decrease, .btn-decrease *')){
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
         // Decrease button is clicked
-        if(state.recipe.servings > 1){
+        if (state.recipe.servings > 1) {
             state.recipe.updateServings('dec');
             recipeView.updateServingsIngredients(state.recipe);
         }
@@ -176,10 +176,10 @@ elements.recipe.addEventListener('click', e => {
         // Increase button is clicked
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
-    } else if(e.target.matches('.recipe__btn--add, .recipe__btn--add *')){
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
         // Add ingredients to shopping list
         controlList();
-    }else if(e.target.matches('.recipe__love, .recipe__love *')){
+    } else if (e.target.matches('.recipe__love, .recipe__love *')) {
         // Like controller
         controlLike();
     }
