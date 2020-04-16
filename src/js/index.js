@@ -14,7 +14,7 @@ import { elements, renderLoader, clearLoader } from '../js/view/base';
  * - Shopiing list object
  * - Linked recipes
  */
-const state = {}
+const state = {};
 
 /**
  * SEARCH CONTROLLER
@@ -155,7 +155,6 @@ const controlLike = () => {
         likesView.toggleLikeBtn(true);
         // Add like to UI list
         likesView.renderLike(newLike);
-        console.log(state.likes);
 
         // User HAS yet liked current recipe
     } else {
@@ -167,7 +166,6 @@ const controlLike = () => {
 
         // Remove like to UI list
         likesView.deleteLike(currentID);
-        console.log(state.likes);
     }
     likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
 };
